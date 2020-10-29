@@ -1,0 +1,4 @@
+// DEVNOTE: app variables must always come before the sass variables to override defaults
+// The !default declaration is the reverse of !important; it will assert the previously declared value.
+@import 'variables/palette';
+@import 'variables/variables';

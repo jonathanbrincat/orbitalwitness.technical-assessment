@@ -1,0 +1,112 @@
+@charset "UTF-8";
+
+//SassScript datatypes = numbers(ints,decimal,units[px,em,rem,%]), strings, colours(string,hex,rgba,hsla), boolean, null, delimited data sets(csv, space delimited)
+//SassScript interpolation = #{str}, use variables in selectors and property names + to escape a string(forgo "", '' wrapping) + encapsulate operations for dynamic values
+
+//== and != equality operators on all datatypes, + can be used to concatenate strings, arithmetic operators (+,-,*,/,%) and relational operators(<,>,<=,>=) on numbers - not division operations should be surrounded in parentheses as '/'' is an accepted css convention
+
+$font__regular:                 arial, helvetica, clean, sans-serif                         !default;
+$font__monospace:               'Menlo', 'Monaco', 'Consolas', 'Courier New', monospace     !default;
+
+$font__roboto:                  'Roboto', helvetica, arial, clean, sans-serif;
+$font__knowledge:               'Knowledge', arial, helvetica, clean, sans-serif;
+$font__metrophobic:             'Metrophobic', verdana, helvetica, arial, clean, sans-serif;
+$font__quicksand:               'Quicksand', verdana, helvetica, arial, clean, sans-serif;
+$font__ekmukta:                 'EkMukta', verdana, helvetica, arial, clean, sans-serif;
+$font__itcavantgarde:           'ITCAvantGarde', 'OpenSans','Helvetica Neue', helvetica, tahoma, arial, clean, sans-serif;
+$font__montserrat:              'Montserrat', helvetica, arial, sans-serif;
+$font__comfortaa:               'Comfortaa', helvetica, arial, sans-serif;
+$font__museomoderno:            'MuseoModerno', helvetica, arial, sans-serif;
+
+/*  =============================================================================
+    Paths
+    ============================================================================= */
+$font-path:                     '/static/fonts/';
+// $font-path:                  '//netdna.bootstrapcdn.com/font-awesome/4.7.0/fonts'; // for referencing Bootstrap CDN font files directly
+$icon-font-path:                '/static/fonts/bootstrap/'; //bootstrap glypicon
+// $icon-font-path:                '~bootstrap-sass/assets/fonts/bootstrap/';
+$fa-font-path:                  '/static/fonts/font-awesome/';
+$image-path:                    '../img/';
+
+/*  =============================================================================
+    Core / Base values - base6
+    ============================================================================= */
+$page-width:                    1200px                          !default;
+
+$margin:                        16px                            !default;
+$margin-percent:                ($margin/$page-width)*100       !default;
+
+$padding:                       20px                            !default;
+$padding-percent:               ($padding/$page-width)*100      !default;
+
+$base__spacing:                 0.6rem                          !default; //6px - DEVNOTE: mixin with < ie9 fallback in px;
+
+$base__font-size:               16px                            !default;
+$base__font-size-rem:           1.6rem                          !default;
+$base__line-height:             1.5                             !default; //150% - unitless to mitigate inheritence
+
+$default-border-radius:         1px                             !default; //compass default
+$border-radius:                 3px                             !default;
+$border-weight:                 2px                             !default;
+
+/*  =============================================================================
+    Theme/Roles
+    ============================================================================= */
+$theme__primary:                $swatch__tr-orange;
+$theme__secondary:              $swatch__tr-grey;
+$theme__secondary:              $color__grey;
+$theme__tertiary:               $color__cyan;
+$theme__tertiary:               $color__orange;
+
+$theme__text-colour:            $swatch__tr-grey-dark           !default;
+$theme__body-text:              $color__grey-mineshaft;
+$theme__body-text-light:        $color__grey;
+
+/*  =============================================================================
+    Media Queries Breakpoints / Screen sizes
+    ============================================================================= */
+$screen__xs-min:                320px                           !default; //320px; //DEVNOTE: treat XS as default ruleset
+$screen__sm-min:                620px                           !default; //420px;
+//----------------------------------------------------------------------------//
+$screen__md-min:                768px                           !default; //720px
+//----------------------------------------------------------------------------//
+$screen__lg-min:                1020px                          !default;
+$screen__xl-min:                1260px                          !default;
+
+/*  =============================================================================
+    Responsive Grid System
+    ============================================================================= */
+$grid:                          12                              !default;
+$grid__gutter:                  $padding                        !default;
+
+$grid__container-sm:            auto                            !default;
+$grid__container-md:            $grid__container-sm             !default;
+$grid__container-lg:            $grid__container-md             !default;
+//DEVNOTE: Bootstrap has 4 breakpoints not 5. so need to extend to XL.
+
+/*  =============================================================================
+    Bootstrap overrides
+    ============================================================================= */
+$text-color:            $theme__text-colour;
+
+$screen-xs-min:         $screen__xs-min; //DEVNOTE: Bootstrap mantra is to assume/apply XS as default ruleset + mobile first
+$screen-sm-min:         $screen__sm-min;
+//----------------------------------------------------------------------------//
+$screen-md-min:         $screen__md-min;
+//----------------------------------------------------------------------------//
+$screen-lg-min:         $screen__lg-min;
+$screen-xl-min:         $screen__xl-min;
+
+$grid-columns:          $grid;
+$grid-gutter-width:     $grid__gutter;
+
+$container-sm:          $grid__container-sm;
+$container-md:          $grid__container-md;
+$container-lg:          $grid__container-lg;
+
+/*  =============================================================================
+    Bulma overrides
+    ============================================================================= */
+$desktop:               1120px + 64px;
+$widescreen:            1120px + 64px;
+$fullhd:                1120px + 64px;

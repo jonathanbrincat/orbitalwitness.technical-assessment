@@ -1,0 +1,19 @@
+[
+    {
+        "leaseschedule": {
+            "scheduleType": "SCHEDULE OF NOTICES OF LEASE",
+            "scheduleEntry": [
+                {
+                    "entryNumber": "1",
+                    "entryDate": "",
+                    "entryType": "Schedule of Notices of Leases",
+                    "entryText": [
+                        "28.01.2009      Transformer Chamber (Ground   23.01.2009      EGL551039  ",
+                        "tinted blue     Floor)                        99 years from              ",
+                        "(part of)                                     23.1.2009"
+                    ]
+                }
+            ]
+        }
+    }
+]

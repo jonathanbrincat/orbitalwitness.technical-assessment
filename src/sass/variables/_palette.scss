@@ -1,0 +1,120 @@
+@charset "UTF-8";
+// http://chir.ag/projects/name-that-color/
+
+/* =============================================================================
+    Palette
+    ========================================================================== */
+$color__white:              rgb(255,255,255)        !default;
+$color__white-smoke:        rgb(245,245,245)        !default;       //#f5f5f5
+
+$color__silver:             rgb(234,234,234)        !default;       //#EAEAEA
+
+$color__grey:               rgb(102,102,102)        !default;       //#666666
+$color__gray:               $color__grey            !default;
+$color__grey-light:         rgb(175,175,175)        !default;       //#EAEAEA
+$color__gray-light:         $color__grey-light      !default;
+$color__grey-dark:          rgb(61, 61, 61)         !default;       //#3D3D3D
+$color__gray-dark:          $color__grey-dark       !default;
+$color__grey-alto:          rgb(220,220,220)        !default;       //#dcdcdc;
+$color__grey-boulder:       rgb(121,121,121)        !default;       //#797979;
+$color__grey-dove:          rgb(97,97,97)           !default;       //#616161;
+$color__grey-mineshaft:     rgb(32,32,32)           !default;       //#202020;
+
+$color__black:              rgb(0,0,0)              !default;
+
+$color__red:                rgb(220,10,10)          !default;       //#DC0A0A
+$color__red-light:          rgb(212, 51, 51)        !default;       //#d43333
+$color__red-dark:           rgb(160,0,0)            !default;       //#A00000
+
+$color__green:              rgb(79,175,75)          !default;       //#4faf4b
+$color__green-light:        rgb(119,162,45)         !default;       //#41a762;
+$color__green-dark:         rgb(56,124,43)          !default;       //#387C2B
+$color__green-celery:       rgb(112,165,49)         !default;       //#96cd56;
+$color__green-lime:         rgb(195,213,21)         !default;       //#c3d515
+
+$color__blue:               rgb(0,93,162)           !default;       //#005DA2
+$color__blue-light:         rgb(17,105,224)         !default;       //#1169E0
+$color__blue-dark:          rgb(0,70,123)           !default;       //#00467B
+$color__blue-navy:          rgb(0,57,93)            !default;       //#00395d
+$color__blue-cornflower:    rgb(65,122,213)         !default;       //#417ad5;
+$color__blue-azure:         rgb(167,217,232)        !default;       //#a7d9e8
+
+$color__indigo:             rgb(112, 118, 208)      !default;       //#7076d0;
+
+$color__cyan:               rgb(0,153,196)          !default;       //#0099C4
+
+$color__yellow:             rgb(255,204,40)         !default;       //#ffcc28
+
+$color__purple:             rgb(98,31,149)          !default;       //#621F95
+$color__purple-light:       rgb(110,58,183)         !default;       //#6E3AB7
+$color__purple-wisteria:    rgb(180,103,137)        !default;       //#9267B4;
+
+$color__violet:             rgb(180,67,143)         !default;       //#b4438f
+
+$color__orange:             rgb(233,136,10)         !default;       //#e9880a
+$color__orange-light:       rgb(255,178,0)          !default;       //#FFB200
+$color__orange-dark:        rgb(255,89,0)           !default;       //#FF5900
+
+$color__mint:               rgb(0,204,188)          !default;       //#00CCBC
+
+/* =============================================================================
+    SWATCH - Primary / Brand
+    ========================================================================== */
+$swatch__tr-grey:           $color__grey            !default;
+$swatch__tr-gray:           $swatch__tr-grey        !default;
+$swatch__tr-grey-light:     $color__grey-light      !default;
+$swatch__tr-gray-light:     $swatch__tr-grey-light  !default;
+$swatch__tr-grey-dark:      $color__grey-dark       !default;
+$swatch__tr-gray-dark:      $swatch__tr-grey-dark   !default;
+$swatch__tr-silver:         $color__grey-alto       !default;
+$swatch__tr-orange:         $color__orange          !default;
+
+//#6665DD
+//#EDEDF4 ghost white
+//#767B91 rhythm
+//#D9DCD6 timberwolf
+//#3E505B
+//#C6C5B9 steel
+
+$swatch__primary: #00ccbc;
+// $swatch__primary: #beb7a4;
+// $swatch__primary: #1b998b;
+// $swatch__primary: #9dc3c2;
+$swatch__primary: #8AB0AB;
+$swatch__primary: #DC965A;
+$swatch__primary: #D72483;
+$swatch__primary: #FD3E81;
+$swatch__primary: #4A6D7C;
+$swatch__primary: #D9DCD6;
+$swatch__primary: #429EA6; //cadet blue
+$swatch__primary: #5FB7BF; //maximum blue green
+$swatch__primary: #9DA8D2; //wild blue yonder
+$swatch__primary: #50B0B9; //verdigris
+$swatch__primary: #64CCCE; //medium turquoise
+$swatch__primary: #45C2C4; //maximum blue green
+$swatch__primary: #54C7C9; //maximum blue green
+$swatch__primary: #998594; //mountbatten pink
+$swatch__primary: #14D0E1; //dark turquoise
+$swatch__primary: #AEC2BE; //opal
+$swatch__primary: #7F9F99; //morning blue
+$swatch__primary: #8BA7A3; //morning blue
+$swatch__primary: #0FA3B1; //viridian green
+$swatch__primary: #12BFCE; //maximum blue green
+$swatch__primary: #36A9AB; //verdigris
+$swatch__primary: #96B0AC; //morning blue
+$swatch__primary: #A2B9B5; //opal
+$swatch__primary: #92DBDD; //blizzard blue
+$swatch__primary: #62929E; //steel teal
+$swatch__primary: #73D1D3; //medium turquoise
+$swatch__primary: #83D6D8; //middle blue green
+$swatch__primary: #6DBEC5; //maximum blue green
+$swatch__secondary: #394149;
+
+/* =============================================================================
+    SWATCH - Secondary
+    ========================================================================== */
+
+
+/* =============================================================================
+    SWATCH - Tertiary
+    ========================================================================== */
