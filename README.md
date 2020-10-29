@@ -14,11 +14,16 @@ Armed with a rudimentary pattern to use as a basis for my conversion algorithm -
 
 When I was assessing the data structure to identify patterns I had taken note that the presence of a column in a row was not guaranteed. This meant that any regex pattern would need to be fluid in it's assertions because the structure was not fixed. That meant using lookarounds. I was half aware lookbehinds were potentially not supported by JavaScript(well at least not anything outside Chrome) but this was the fastest way to proof and construct the expression as using a lookahead would require reversing the string being tested and that can get very confusing very fast. So this helped reduced the noise. Once the pattern was well-formed and tested it was converted to a lookahead mimicking a lookbehind.
 
-The strategy for the referencing the optional notes would require a different different regex. However as these were singular entries existing within a soliatary row the extraction, resequencing and reconsitution aspects were a lot more straightforward. The primary challenge was creating a safe point of entry in these rows. It was also noted that although the notes always followed after the columnar data, the strings were not neccesarily all contained within a single row. Sometimes there was overspill. So this would require several assumption to service. That anything existing after the first captured note row is a note entity. And that if it fails the regex test for a row then it will be presumed an orphan to the preceding row and concatenated.
+The strategy for the referencing the optional notes would require a different different regex. However as these were singular entries existing within a soliatary row the extraction, resequencing and reconsitution aspects were a lot more straightforward. The primary challenge was creating a safe point of entry in these rows. It was also noted that although the notes always followed after the columnar data, the strings were not neccesarily all contained within a single row. Sometimes there was overspill. So this would require several assumption to service. That anything existing after the first captured note row is a note entity. And that if it fails the regex test for a row then it will be presumed an orphan to the preceding row and concatenated - although I realise this is not the case as sometimes the orphaned row is actually an independent note, this is not something that can be consolidated without human intervention.
+
+UPDATE: After comparing the supplied PDF to the supplied JSON. It is evident that the json is strewn with inconsistencies and continuity errors. For instance there are way more optional notes in the json and they suffer from stray/orphaned rows that are not exhibited in the pdf.
+
 
 ### Regex was proofed and formed here
 [Regex lookbehind](https://regex101.com/r/mZPlFn/1/)
+
 [Regex lookahead(to mimic lookbehind)](https://regex101.com/r/0zUAUp/4/)
+
 [Regex for 'Notes'](https://regex101.com/r/YMmgSs/1/)
 
 ## Project setup

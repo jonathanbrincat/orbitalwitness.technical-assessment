@@ -5,144 +5,170 @@
 // import router from './vue/router'
 // import App from './vue/App.vue'
 
+// createApp(App).use(store).use(router).mount('#app')
+
 import './sass/main.scss'
 
 import data from '@/json/data.json'
-
-// const regex2 = /^(?:\s{0,2}(.{9})(?=.{62}))?(?:\s{0,2}(.{14})(?=.{46}))?(?:\s{0,2}(.{28})(?=.{16}))?(?:\s{0,2}(.{14}))$/
-// const regex3 = /^(?:\s{2,11}(\w{0,9})(?=.{62}))?(?:\s{2,16}(.{0,14})(?=.{46}))?(?:\s{2,30}(.{0,28})(?=.{16}))?(?:\s{2,16}(.{0,14}))(?:\b|$)/gm
-const regex4 = /^(?:\s{0,11}(?<registration>\w{0,9})(?=.{62}))?(?:\s{0,16}(?<description>.{0,14})(?=.{46}))?(?:\s{0,30}(?<term>.{0,28})(?=.{16}))?(?:\s{0,16}(?<title>.{0,14}))(?:\b|$)/
-
-// const regex5 = /^(?:[N|n]ote|NOTE)\s*\d*?\s*?:\s*(.*)$/
-const regex6 = /^(?:[N|n]ote|NOTE)\s*\d*?\s*?:\s*(?<note>.*)$/
 
 String.prototype.reverse = function () {
 	return this.split('').reverse().join('');
 };
 
-// createApp(App).use(store).use(router).mount('#app')
+const regexEntry = /^(?:\s{0,11}(?<registration>\w{0,9})(?=.{62}))?(?:\s{0,16}(?<description>.{0,14})(?=.{46}))?(?:\s{0,30}(?<term>.{0,28})(?=.{16}))?(?:\s{0,16}(?<title>.{0,14}))(?:\b|$)/
+const regexNotes = /^(?:[N|n]ote|NOTE)\s*\d*?\s*?:\s*(?<note>.*)$/
 
-console.log('leaseschedule ', data)
+
 for( const [i, { leaseschedule }] of data.entries() ) {
-	console.log('\n', i, ' leaseschedule > scheduleEntry = ', leaseschedule.scheduleEntry.length)
 
+	//DEVNOTE: rendering to page - START
 	const $target = document.getElementById('schedule__notice-of-lease')
 	const $li = document.createElement('li')
 	const $h2 = document.createElement('h2')
 	const $headingLeaseSchedule = document.createTextNode(leaseschedule.scheduleType)
 
 	$li.classList.add('lease__schedule')
+	$h2.classList.add('schedule__heading')
 
 	$h2.appendChild($headingLeaseSchedule)
 	$li.appendChild($h2)
 	$target.appendChild($li)
+	//DEVNOTE: rendering to page - END
 
 	leaseschedule.scheduleEntry.forEach( ({ entryText }, j) => {
-		// console.log(j, ' ======================= ', entryText)
 
 		if(entryText.length > 1) { //DEVNOTE: entries with a single row are treated as void/cancelled(indiscriminate; requires certified pattern and refinement)
 
-			let result = [[],[],[],[],[]] //new Array(4).fill([])
+			const entryColumns = [[],[],[],[],[]]
 
-			entryText.forEach( (row, k) => {
-				// console.log(k, ' :: ', row)
+			// Check if our entry has any optional notes. If it does we split into two separate pieces so we can deal with them individually - this is necessary because I found some notes have orphaned rows of text
+			const hasNotes = entryText.findIndex( (row) => regexNotes.test(row) )
+			if(hasNotes !== -1) {
+				var entryArray = entryText.slice(0, hasNotes)
+				var notesArray = entryText.slice(hasNotes)
+			}else {
+				var entryArray = entryText.slice()
+			}
 
-				if(row != null) {
+			// Parse our rows of text for entries and partition into their columnar segments
+			entryArray && entryArray.forEach( (row, k) => {
+				if(row !== null) {
 
-					// DEVNOTE: Because there is no enforcement of content integrity - i.e. sometimes notes break onto two rows. There woud need to be a presumption that rows that follow after the first identifiable occurance of a note will be related content and/or additionals notes.
-					let note
-					if(regex6.test(row)) {
-						// console.log(row)
+					// JavaScript does not currently support the lookbehind feature with regex - however we can mimic a positive lookbehind with a lookahead by reversing our string and the regex pattern to suit
+					const lookupSegments = row.reverse().match(regexEntry)
 
-						note = regex6.exec(row)
-						// console.log(note)
+					if(lookupSegments) {
+						const entrySegments = lookupSegments.map( (segment) => segment ? segment.reverse() : segment )
 
-						//DEVNOTE: needs more work; counter clause to retrieve orphaned lines. will need to rework the wrapping conditionals to make that work.
-
-						result[4].push(note)
-					}else {
-						// 	// console.log(`${k} ::  ${row}`)
-
-						var foo = row.reverse()
-						// console.log(`\n ${k} --------------------- ${foo.length}`) // DEVNOTE : max character length is 73
-						// console.log(`${k} :foo: ${foo}`, foo)
-						var bar = foo.match(regex4)
-						// var bar = regex2.exec(foo)
-						// console.log(`${k} :bar:`, bar)
-
-						if(bar) {
-							const foobar = bar.map( (item) => item ? item.reverse() : item )
-							// console.log(foobar)
-
-							if(foobar[1] && foobar[1].length) result[0].push(foobar[1])
-							if(foobar[2] && foobar[2].length) result[1].push(foobar[2])
-							if(foobar[3] && foobar[3].length) result[2].push(foobar[3])
-							if(foobar[4] && foobar[4].length) result[3].push(foobar[4])
-
-							// console.log(result)
+						// Sequence our captive segments so they are represented collectively in columnar order
+						let index = 1
+						while(index < entrySegments.length) {
+							if(entrySegments[index] && entrySegments[index].length) entryColumns[index-1].push(entrySegments[index])
+							
+							index++
 						}
 					}
-
 				}
-				
+			})
+
+			// Parse our optional notes. Capture and concatenate any stray/orphaned rows
+			notesArray && notesArray.forEach( (row, l) => {
+				if(row !== null) {
+					if(regexNotes.test(row)) {
+						const note = regexNotes.exec(row)
+
+						entryColumns[4].push(note[1])
+					} else {
+						// DEVNOTE: Concatenation orphans to previous note
+						entryColumns[4][entryColumns[4].length-1] = `${entryColumns[4][entryColumns[4].length-1]} ${row}`
+						
+						// DEVNOTE: Make orphans additional note entries
+						// entryColumns[4].push(row)
+					}
+				}
 			})
 			
-			// console.log(result)
-
-			const output = {
-				column1: result[0].join(' '),
-				column2: result[1].join(' '),
-				column3: result[2].join(' '),
-				column4: result[3].join(' ')
+			// Flatten our arrays now grouped by column/category by concatenating the pieces we've collected together into a reunited and coherent string
+			const data = {
+				title: entryColumns[0].join(' '),
+				term: entryColumns[1].join(' '),
+				description: entryColumns[2].join(' '),
+				registration: entryColumns[3].join(' ')
 			}
 
-			if(result[4].length) {
-				output.note = result[4]
+			if(entryColumns[4].length) {
+				data.note = entryColumns[4]
 			}
 
-			console.log('============================')
-			console.log(output)
-			console.log('\n')
+			//DEVNOTE: if this where an endpoint then yes we could go one step further here and create a json collection using .map() instead of .forEach()
 
+			//DEVNOTE: rendering to page - START
 			const $article = document.createElement('article')
+			const $table = document.createElement('table')
+
+			$table.classList.add('entry__table')
 
 			$article.classList.add('schedule__entry')
 
 			$li.appendChild($article)
+			$article.appendChild($table)
 			
-			Object.entries(output).forEach( (entry, i) => {
-
-				const $el = document.createElement(i === 0 ? 'h3' : entry[0] === 'note' ? 'ol' :'p')
+			Object.entries(data).forEach( (entry, m) => {
+				const $el = document.createElement(m === 0 ? 'h3' : 'ol')
 
 				if(entry[0] === 'note') {
 					const $h4 = document.createElement('h4')
 					const $headingNote = document.createTextNode('Notes:')
 
+					$h4.classList.add('entry__notes-heading')
+					$el.classList.add('entry__notes-list')
+
 					$h4.appendChild($headingNote)
 					$article.appendChild($h4)
 
-					entry[1].forEach( (note) => {
-						console.log(' >> ', note)
-						
+					entry[1].forEach( (note) => {						
 						const $li = document.createElement('li')
+						$li.classList.add('notes-list__item')
 
-						const $listItemNote = document.createTextNode(note[1])
+						const $listItemNote = document.createTextNode(note)
 
 						$li.appendChild($listItemNote)
 						$el.appendChild($li)
 					})
+
+					$article.appendChild($el)
+
 				}else {
-					$el.innerHTML = entry[1] || 'No information'
+					if(m > 0) {
+						const $el = document.createElement('td')
+						const $tr = document.createElement('tr')
+						const $th = document.createElement('th')
+
+						$tr.classList.add(`entry__${entry[0]}`)
+
+						$th.innerHTML = entry[0]
+						$el.innerHTML = entry[1] || 'No information'
+
+						$tr.appendChild($th)
+						$tr.appendChild($el)
+						$table.appendChild($tr)
+
+					}else {
+						$el.classList.add(`entry__${entry[0]}`)
+						$el.innerHTML = entry[1] || 'No information'
+
+						$article.prepend($el)
+					}
+
 				}
 				
-				$article.appendChild($el)
-
 				// document.write(JSON.stringify(entry[1], null, 2))
+				//DEVNOTE: rendering to page - END
 			})
 
 
 		} else {
-			// assume entry to be cancelled/void
+			// DEVNOTE: assume entry to be cancelled/void
 		}
 	})
 }
