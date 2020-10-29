@@ -9,12 +9,11 @@ import './sass/main.scss'
 
 import data from '@/json/data.json'
 
-const regex1 = /^(.{14}\s{2})((?<=.{16}).{28}\s{2})?((?<=.{46}).{14}\s{2})?((?<=.{62}).{9}\s{2})?$/
-const regex2 = /^(?:\s{0,2}(.{9})(?=.{62}))?(?:\s{0,2}(.{14})(?=.{46}))?(?:\s{0,2}(.{28})(?=.{16}))?(?:\s{0,2}(.{14}))$/
+// const regex2 = /^(?:\s{0,2}(.{9})(?=.{62}))?(?:\s{0,2}(.{14})(?=.{46}))?(?:\s{0,2}(.{28})(?=.{16}))?(?:\s{0,2}(.{14}))$/
 // const regex3 = /^(?:\s{2,11}(\w{0,9})(?=.{62}))?(?:\s{2,16}(.{0,14})(?=.{46}))?(?:\s{2,30}(.{0,28})(?=.{16}))?(?:\s{2,16}(.{0,14}))(?:\b|$)/gm
-const regex4 = /^(?:\s{0,11}(?<name4>\w{0,9})(?=.{62}))?(?:\s{0,16}(?<name3>.{0,14})(?=.{46}))?(?:\s{0,30}(?<name2>.{0,28})(?=.{16}))?(?:\s{0,16}(?<name1>.{0,14}))(?:\b|$)/
+const regex4 = /^(?:\s{0,11}(?<registration>\w{0,9})(?=.{62}))?(?:\s{0,16}(?<description>.{0,14})(?=.{46}))?(?:\s{0,30}(?<term>.{0,28})(?=.{16}))?(?:\s{0,16}(?<title>.{0,14}))(?:\b|$)/
 
-const regex5 = /^(?:[N|n]ote|NOTE)\s*\d*?\s*?:\s*(.*)$/
+// const regex5 = /^(?:[N|n]ote|NOTE)\s*\d*?\s*?:\s*(.*)$/
 const regex6 = /^(?:[N|n]ote|NOTE)\s*\d*?\s*?:\s*(?<note>.*)$/
 
 String.prototype.reverse = function () {
@@ -47,53 +46,29 @@ for( const [i, { leaseschedule }] of data.entries() ) {
 
 			entryText.forEach( (row, k) => {
 				// console.log(k, ' :: ', row)
-				// document.write(JSON.stringify(row, null, 2))
 
 				if(row != null) {
 
 					// DEVNOTE: Because there is no enforcement of content integrity - i.e. sometimes notes break onto two rows. There woud need to be a presumption that rows that follow after the first identifiable occurance of a note will be related content and/or additionals notes.
 					let note
-					if(regex5.test(row)) {
+					if(regex6.test(row)) {
 						// console.log(row)
 
-						note = regex5.exec(row)
+						note = regex6.exec(row)
 						// console.log(note)
+
+						//DEVNOTE: needs more work; counter clause to retrieve orphaned lines. will need to rework the wrapping conditionals to make that work.
 
 						result[4].push(note)
 					}else {
-
-						// if(row.endsWith('  ')) {
 						// 	// console.log(`${k} ::  ${row}`)
 
-						// 	//NOTE: max row length is 73 characters
-
-						// 	//.match() .matchAll() with regex
-						// 	//.slice() return string extract immutable
-						// 	//.split()
-						// 	//.substring()
-						// 	//.substr() //deprecated
-						// 	//Symbol.iterator
-						// 	/*
-						// 	foobar.push(row.substr(0, 16))
-						// 	foobar.push(row.substr(16, 30))
-						// 	foobar.push(row.substr(16+30, 16))
-						// 	foobar.push(row.substr(16+30+16, 11))
-						// 	console.log(foobar)
-						// 	*/
-
-						// BAD NEWS lookbehinds are not yet supported by javascript
-						// var foobar = row.match(regex1)
-						// console.log(k, ' :jb: ', foobar)
-
-
 						var foo = row.reverse()
-						// console.log(`\n ${k} --------------------- ${foo.length}`)
-						// console.log(foo)
-						// console.log(`${k} :foo: ${foo}`)
+						// console.log(`\n ${k} --------------------- ${foo.length}`) // DEVNOTE : max character length is 73
+						// console.log(`${k} :foo: ${foo}`, foo)
 						var bar = foo.match(regex4)
 						// var bar = regex2.exec(foo)
 						// console.log(`${k} :bar:`, bar)
-						// console.log(bar)
 
 						if(bar) {
 							const foobar = bar.map( (item) => item ? item.reverse() : item )
@@ -106,26 +81,6 @@ for( const [i, { leaseschedule }] of data.entries() ) {
 
 							// console.log(result)
 						}
-
-						// }else {
-
-						// 	//note row
-						// 	if(row.toLowerCase().startsWith('note')) { //alternative check for presence of double whitespace as this denotes presence of columnar data // probably best to use both
-						// 		console.log('note = ', row)
-						// 	//incomplete row
-						// 	}else {
-						// 		console.log(`\n ${k} --------------------- ${row.length}`)
-						// 		console.log('incomplete row = ', row);
-						// 		var foo = row.reverse().padStart(row.length+2, ' ')
-						// 		console.log(foo)
-						// 		var bar = regex2.exec(foo)
-						// 		console.log(bar)
-
-						// 		//DEVNOTE: TODO. add the two characters of whitespace prefix then it can be passed through the regex like the rest
-						// 	}
-						// }
-
-						// console.log(foobar[0])
 					}
 
 				}
