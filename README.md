@@ -84,6 +84,9 @@ UPDATE: After comparing the supplied PDF to the supplied JSON. It is evident tha
 
 ---
 
+Node: v14.20.x (will not work with major versions earlier or greater)
+NPM: v6.14.x
+
 ## Project setup
 ```
 npm install
